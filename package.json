@@ -33,6 +33,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "joi": "^17.4.0"
   }
 }
