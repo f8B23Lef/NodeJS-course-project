@@ -46,8 +46,8 @@ function deleteUser(id) {
   return false;
 }
 
-function updateUser(userData) {
-  const user = findUser(userData.id);
+function updateUser(id, userData) {
+  const user = findUser(id);
 
   if (user) {
     user.login = userData.hasOwnProperty('login') ? userData.login : user.login;
@@ -63,13 +63,6 @@ function updateUser(userData) {
 }
 
 function getAutoSuggestUsers(userQuery) {
-  if (
-    !userQuery.hasOwnProperty('loginSubstring') ||
-    !userQuery.hasOwnProperty('limit')
-  ) {
-    return null;
-  }
-
   const users = USERS.filter(
     (user) =>
       !user.isDeleted && user.login.startsWith(userQuery.loginSubstring),
