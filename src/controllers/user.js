@@ -1,63 +1,37 @@
-import {
-  addUser,
-  getUser,
-  deleteUser,
-  updateUser,
-  getAutoSuggestUsers,
-} from '../services/user.js';
+import UserService from '../services/user.js';
 
-function onAddUser(req, res) {
-  addUser(req.body);
-  res
-    .status(200)
-    .json({ message: `User with login = ${req.body.login} is created` });
-}
+export default class UserController {
+  static async onAddUser(req, res) {
+    res.json(await UserService.addUser(req.body));
+  }
 
-function onUpdateUser(req, res) {
-  const isUpdated = updateUser(req.params.id, req.body);
-  if (isUpdated) {
+  static async onUpdateUser(req, res) {
+    await UserService.updateUser(req.params.id, req.body);
     res
       .status(200)
       .json({ message: `User with id = ${req.params.id} is updated` });
-  } else {
-    res
-      .status(404)
-      .json({ message: `User with id = ${req.params.id} not found` });
   }
-}
 
-function onGetUser(req, res) {
-  const user = getUser(req.params.id);
-  if (user) {
-    res.json(user);
-  } else {
-    res
-      .status(404)
-      .json({ message: `User with id = ${req.params.id} not found` });
+  static async onGetUser(req, res) {
+    const user = await UserService.getUser(req.params.id);
+
+    if (user) {
+      res.json(user);
+    } else {
+      res
+        .status(404)
+        .json({ message: `User with id = ${req.params.id} not found` });
+    }
   }
-}
 
-function onDeleteUser(req, res) {
-  const isDeleted = deleteUser(req.params.id);
-  if (isDeleted) {
+  static async onDeleteUser(req, res) {
+    await UserService.deleteUser(req.params.id);
     res
       .status(200)
       .json({ message: `User with id = ${req.params.id} is deleted` });
-  } else {
-    res
-      .status(404)
-      .json({ message: `User with id = ${req.params.id} not found` });
+  }
+
+  static async onGetAutosuggestedUsers(req, res) {
+    res.json(await UserService.getAutoSuggestUsers(req.query));
   }
 }
-
-function onGetAutosuggestedUsers(req, res) {
-  res.json(getAutoSuggestUsers(req.query));
-}
-
-export {
-  onAddUser,
-  onUpdateUser,
-  onGetUser,
-  onDeleteUser,
-  onGetAutosuggestedUsers,
-};

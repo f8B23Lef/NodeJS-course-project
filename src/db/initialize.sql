@@ -1,0 +1,14 @@
+DROP DATABASE IF EXISTS node_db;
+
+CREATE DATABASE node_db;
+
+DROP TABLE IF EXISTS "Users";
+
+CREATE TABLE "Users" (
+  id SERIAL NOT NULL,
+  login VARCHAR(128) NOT NULL,
+  password VARCHAR(128) NOT NULL,
+  age INTEGER NOT NULL,
+  "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+  PRIMARY KEY (id)
+);

@@ -1,25 +1,27 @@
 import { Router } from 'express';
+import UserController from '../controllers/user.js';
+import validateSchema from '../middleware/validation.js';
+import asyncHandler from '../middleware/asyncHandler.js';
 import {
-  onAddUser,
-  onUpdateUser,
-  onGetUser,
-  onDeleteUser,
-  onGetAutosuggestedUsers,
-} from '../controllers/user.js';
-import { validateUserQuery, validateSchema } from '../middleware/validation.js';
-import { userPostSchema, userPutSchema } from '../schemas/user.js';
+  userPostSchema,
+  userPutSchema,
+  userGetAutosuggestSchema,
+} from '../schemas/user.js';
 
 const router = Router();
 
 router
   .route('/')
-  .get(validateUserQuery, onGetAutosuggestedUsers)
-  .post(validateSchema(userPostSchema), onAddUser);
+  .get(
+    validateSchema(userGetAutosuggestSchema, false),
+    asyncHandler(UserController.onGetAutosuggestedUsers),
+  )
+  .post(validateSchema(userPostSchema), asyncHandler(UserController.onAddUser));
 
 router
   .route('/:id')
-  .get(onGetUser)
-  .put(validateSchema(userPutSchema), onUpdateUser)
-  .delete(onDeleteUser);
+  .get(asyncHandler(UserController.onGetUser))
+  .put(validateSchema(userPutSchema), asyncHandler(UserController.onUpdateUser))
+  .delete(asyncHandler(UserController.onDeleteUser));
 
 export default router;
