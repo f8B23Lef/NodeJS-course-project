@@ -26,3 +26,25 @@ Add server-side validation for create/update operations of **User** entity:
 In case of any property does not meet the validation requirements or the field is absent, return **400 (Bad Request)** and detailed error message.
 For requests validation use special packages like **joi**
 (https://github.com/hapijs/joi, https://www.npmjs.com/package/express-joi-validation).
+
+## TASK 3.1
+
+1. Install DB PostgreSQL on your machine or use a free web hosting services for PostgreSQL
+(https://www.heroku.com/postgres or https://www.elephantsql.com/plans.html).
+2. Write SQL script which will create **Users** table in the DB and fill it in with predefined users’
+collection.
+3. Configure your **REST** service to work with **PostgreSQL**.
+− Use the **sequelize** package (http://docs.sequelizejs.com/) as **ORM** to work with
+**PostgreSQL**.
+As an alternative to **sequelize** you can use more low-level **query-builder** library
+(http://knexjs.org/).
+
+## TASK 3.2
+
+The service should adhere to 3-layer architecture principles (https://softwareontheroad.com/idealnodejs-project-structure/) and contain the following set of directories:
+
+- routers / controllers
+- services
+- data-access
+- models
+

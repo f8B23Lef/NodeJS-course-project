@@ -16,4 +16,9 @@ const userPostSchema = Joi.object({
   age: Joi.number().integer().min(4).max(130).required(),
 });
 
-export { userPutSchema, userPostSchema };
+const userGetAutosuggestSchema = Joi.object({
+  loginSubstring: Joi.string().required(),
+  limit: Joi.number().integer().min(1).required(),
+});
+
+export { userPutSchema, userPostSchema, userGetAutosuggestSchema };
