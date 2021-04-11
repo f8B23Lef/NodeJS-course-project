@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import sequelize from '../db/db.js';
 import User from '../models/user.js';
+import UserGroup from '../models/userGroup.js';
 import DataAccessError from '../errors/dataAccess.js';
 
 async function createUser(login, password, age) {
@@ -31,6 +32,7 @@ async function updateUser(id, login, password, age) {
 }
 
 async function deleteUser(id) {
+  const transaction = await sequelize.transaction();
   try {
     const user = await User.update(
       { isDeleted: true },
@@ -38,11 +40,22 @@ async function deleteUser(id) {
         where: {
           id,
         },
+        transaction,
       },
     );
 
+    await UserGroup.destroy({
+      where: {
+        userId: id,
+      },
+      transaction,
+    });
+
+    await transaction.commit();
+
     return user[0];
   } catch (err) {
+    await transaction.rollback();
     throw new DataAccessError(err);
   }
 }
