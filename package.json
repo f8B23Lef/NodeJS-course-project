@@ -8,7 +8,7 @@
     "lint": "eslint -c .eslintrc.json ./src/**/*.js",
     "fix-lint": "eslint -c .eslintrc.json ./src/**/*.js --fix",
     "kill-node": "taskkill /F /IM node.exe",
-    "task3": "nodemon --exec babel-node ./src/app.js"
+    "task4": "nodemon --exec babel-node ./src/app.js"
   },
   "repository": {
     "type": "git",

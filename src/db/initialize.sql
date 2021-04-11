@@ -12,3 +12,12 @@ CREATE TABLE "Users" (
   "isDeleted" BOOLEAN NOT NULL DEFAULT false,
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS "Groups";
+
+CREATE TABLE "Groups" (
+  id SERIAL NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  permissions VARCHAR[] NOT NULL,
+  PRIMARY KEY (id)
+);

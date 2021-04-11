@@ -2,11 +2,7 @@ import { Router } from 'express';
 import UserController from '../controllers/user.js';
 import validateSchema from '../middleware/validation.js';
 import asyncHandler from '../middleware/asyncHandler.js';
-import {
-  userPostSchema,
-  userPutSchema,
-  userGetAutosuggestSchema,
-} from '../schemas/user.js';
+import { userSchema, userGetAutosuggestSchema } from '../schemas/user.js';
 
 const router = Router();
 
@@ -16,12 +12,12 @@ router
     validateSchema(userGetAutosuggestSchema, false),
     asyncHandler(UserController.onGetAutosuggestedUsers),
   )
-  .post(validateSchema(userPostSchema), asyncHandler(UserController.onAddUser));
+  .post(validateSchema(userSchema), asyncHandler(UserController.onAddUser));
 
 router
   .route('/:id')
   .get(asyncHandler(UserController.onGetUser))
-  .put(validateSchema(userPutSchema), asyncHandler(UserController.onUpdateUser))
+  .put(validateSchema(userSchema), asyncHandler(UserController.onUpdateUser))
   .delete(asyncHandler(UserController.onDeleteUser));
 
 export default router;
