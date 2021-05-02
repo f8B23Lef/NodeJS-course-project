@@ -1,7 +1,8 @@
-export default class DataAccessError extends Error {
+import GeneralError from './general.js';
+
+export default class DataAccessError extends GeneralError {
   constructor(err) {
-    super();
-    this.message = err.message;
+    super(err.message);
     this.code = 500;
   }
 }

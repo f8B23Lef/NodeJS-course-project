@@ -1,7 +1,8 @@
-export default class NotFoundError extends Error {
+import GeneralError from './general.js';
+
+export default class NotFoundError extends GeneralError {
   constructor(message) {
-    super();
-    this.message = message;
+    super(message);
     this.code = 404;
   }
 }
