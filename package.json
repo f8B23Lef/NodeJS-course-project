@@ -8,7 +8,7 @@
     "lint": "eslint -c .eslintrc.json ./src/**/*.js",
     "fix-lint": "eslint -c .eslintrc.json ./src/**/*.js --fix",
     "kill-node": "taskkill /F /IM node.exe",
-    "task4": "nodemon --exec babel-node ./src/app.js"
+    "task5": "nodemon --exec babel-node ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "joi": "^17.4.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.6.2"
+    "sequelize": "^6.6.2",
+    "winston": "^3.3.3"
   }
 }
