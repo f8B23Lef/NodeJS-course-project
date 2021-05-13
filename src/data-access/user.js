@@ -98,4 +98,29 @@ async function findUsersByLogin(loginSubstring, limit) {
   }
 }
 
-export { createUser, updateUser, deleteUser, findUserById, findUsersByLogin };
+async function findUser(login, password) {
+  try {
+    const user = await User.findOne({
+      where: {
+        login,
+        password,
+        isDeleted: {
+          [Op.eq]: false,
+        },
+      },
+    });
+
+    return user;
+  } catch (err) {
+    throw new DataAccessError(err);
+  }
+}
+
+export {
+  createUser,
+  updateUser,
+  deleteUser,
+  findUserById,
+  findUsersByLogin,
+  findUser,
+};
