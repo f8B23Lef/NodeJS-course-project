@@ -35,7 +35,7 @@ export default class GroupController {
   }
 
   static async onDeleteGroup(req, res) {
-    await GroupService.deleteGroup(req.params.id, req.body);
+    await GroupService.deleteGroup(req.params.id);
     res
       .status(200)
       .json({ message: `Group with id = ${req.params.id} is deleted` });
