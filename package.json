@@ -4,11 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "lint": "eslint -c .eslintrc.json ./src/**/*.js",
     "fix-lint": "eslint -c .eslintrc.json ./src/**/*.js --fix",
     "kill-node": "taskkill /F /IM node.exe",
-    "task6": "nodemon --exec babel-node ./src/app.js"
+    "task7": "nodemon --exec babel-node ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,13 @@
     "@babel/core": "^7.13.10",
     "@babel/node": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
+    "babel-jest": "^27.0.1",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^27.0.1",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   },
