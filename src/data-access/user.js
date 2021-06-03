@@ -1,12 +1,12 @@
 import { Op } from 'sequelize';
-import sequelize from '../db/db.js';
-import User from '../models/user.js';
-import UserGroup from '../models/userGroup.js';
+import getSequelize from '../db/db.js';
+import getUser from '../models/user.js';
+import getUserGroup from '../models/userGroup.js';
 import DataAccessError from '../errors/dataAccess.js';
 
 async function createUser(login, password, age) {
   try {
-    const user = await User.create({ login, password, age });
+    const user = await getUser().create({ login, password, age });
 
     return user;
   } catch (err) {
@@ -16,7 +16,7 @@ async function createUser(login, password, age) {
 
 async function updateUser(id, login, password, age) {
   try {
-    const user = await User.update(
+    const user = await getUser().update(
       { login, password, age },
       {
         where: {
@@ -32,9 +32,9 @@ async function updateUser(id, login, password, age) {
 }
 
 async function deleteUser(id) {
-  const transaction = await sequelize.transaction();
+  const transaction = await getSequelize().transaction();
   try {
-    const user = await User.update(
+    const user = await getUser().update(
       { isDeleted: true },
       {
         where: {
@@ -44,7 +44,7 @@ async function deleteUser(id) {
       },
     );
 
-    await UserGroup.destroy({
+    await getUserGroup().destroy({
       where: {
         userId: id,
       },
@@ -62,7 +62,7 @@ async function deleteUser(id) {
 
 async function findUserById(id, showDeleted = false) {
   try {
-    const user = await User.findOne({
+    const user = await getUser().findOne({
       where: {
         id,
         isDeleted: {
@@ -79,7 +79,7 @@ async function findUserById(id, showDeleted = false) {
 
 async function findUsersByLogin(loginSubstring, limit) {
   try {
-    const users = await User.findAll({
+    const users = await getUser().findAll({
       where: {
         isDeleted: {
           [Op.eq]: false,
@@ -88,7 +88,7 @@ async function findUsersByLogin(loginSubstring, limit) {
           [Op.like]: `${loginSubstring}%`,
         },
       },
-      order: sequelize.col('login'),
+      order: getSequelize().col('login'),
       limit,
     });
 
@@ -100,7 +100,7 @@ async function findUsersByLogin(loginSubstring, limit) {
 
 async function findUser(login, password) {
   try {
-    const user = await User.findOne({
+    const user = await getUser().findOne({
       where: {
         login,
         password,

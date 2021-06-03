@@ -1,19 +1,27 @@
-import sequelize from '../db/db.js';
+import getSequelize from '../db/db.js';
 import User from './user.js';
 import Group from './group.js';
 
-const UserGroup = sequelize.define(
-  'UserGroup',
-  {},
-  {
-    tableName: 'UserGroup',
-    timestamps: false,
-  },
-);
+let UserGroup = null;
 
-User.belongsToMany(Group, { through: UserGroup, foreignKey: 'userId' });
-Group.belongsToMany(User, { through: UserGroup, foreignKey: 'groupId' });
+function getUserGroup() {
+  if (!UserGroup) {
+    UserGroup = getSequelize.define(
+      'UserGroup',
+      {},
+      {
+        tableName: 'UserGroup',
+        timestamps: false,
+      },
+    );
 
-UserGroup.sync({ alter: true });
+    User.belongsToMany(Group, { through: UserGroup, foreignKey: 'userId' });
+    Group.belongsToMany(User, { through: UserGroup, foreignKey: 'groupId' });
 
-export default UserGroup;
+    UserGroup.sync({ alter: true });
+  }
+
+  return UserGroup;
+}
+
+export default getUserGroup;

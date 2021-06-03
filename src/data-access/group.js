@@ -1,11 +1,11 @@
-import Group from '../models/group.js';
-import UserGroup from '../models/userGroup.js';
+import getGroup from '../models/group.js';
+import getUserGroup from '../models/userGroup.js';
 import DataAccessError from '../errors/dataAccess.js';
-import sequelize from '../db/db.js';
+import getSequelize from '../db/db.js';
 
 async function findGroupById(id) {
   try {
-    const group = await Group.findByPk(id);
+    const group = await getGroup().findByPk(id);
 
     return group;
   } catch (err) {
@@ -15,7 +15,7 @@ async function findGroupById(id) {
 
 async function findAllGroups() {
   try {
-    const groups = await Group.findAll();
+    const groups = await getGroup().findAll();
 
     return groups;
   } catch (err) {
@@ -25,7 +25,7 @@ async function findAllGroups() {
 
 async function createGroup(name, permissions) {
   try {
-    const group = await Group.create({ name, permissions });
+    const group = await getGroup().create({ name, permissions });
 
     return group;
   } catch (err) {
@@ -35,7 +35,7 @@ async function createGroup(name, permissions) {
 
 async function updateGroup(id, name, permissions) {
   try {
-    const group = await Group.update(
+    const group = await getGroup().update(
       { name, permissions },
       {
         where: {
@@ -52,7 +52,7 @@ async function updateGroup(id, name, permissions) {
 
 async function deleteGroup(id) {
   try {
-    const isDeleted = await Group.destroy({
+    const isDeleted = await getGroup().destroy({
       where: {
         id,
       },
@@ -65,10 +65,10 @@ async function deleteGroup(id) {
 }
 
 async function addUsersToGroup(groupId, userIds) {
-  const transaction = await sequelize.transaction();
+  const transaction = await getSequelize.transaction();
   try {
     const requests = userIds.map((userId) =>
-      UserGroup.create({ groupId, userId }, { transaction }),
+      getUserGroup().create({ groupId, userId }, { transaction }),
     );
     await Promise.all(requests);
     await transaction.commit();
